@@ -1,0 +1,14 @@
+{
+  "name": "mdf-viewer-electron",
+  "version": "1.0.0",
+  "description": "Electron viewer for Microsoft SQL Server MDF files on macOS using Docker",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-mac": "electron-packager . MDFViewer --platform=darwin --arch=arm64,x64 --overwrite"
+  },
+  "devDependencies": {
+    "electron": "^35.0.0",
+    "electron-packager": "^17.1.2"
+  }
+}

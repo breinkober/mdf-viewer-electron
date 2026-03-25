@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MDF Viewer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <h1>MDF Viewer</h1>
+      <p class="muted">Microsoft SQL Server MDF-Dateien auf macOS per Docker anzeigen</p>
+
+      <section class="card">
+        <h2>Dateien</h2>
+        <label>MDF-Datei</label>
+        <div class="file-row">
+          <input id="mdfPath" type="text" readonly placeholder="Keine MDF-Datei ausgewählt" />
+          <button id="chooseMdf">Auswählen</button>
+        </div>
+
+        <label>Log-Datei (optional)</label>
+        <div class="file-row">
+          <input id="ldfPath" type="text" readonly placeholder="Keine LDF-Datei ausgewählt" />
+          <button id="chooseLdf">Auswählen</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Aktionen</h2>
+        <div class="action-buttons">
+          <button id="attachBtn" class="primary">Datenbank laden</button>
+          <button id="loadTablesBtn">Tabellen laden</button>
+          <button id="exportBtn">CSV exportieren</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Status</h2>
+        <div id="status" class="status">Bereit</div>
+      </section>
+
+      <section class="card log-card">
+        <h2>Log</h2>
+        <div id="log" class="log"></div>
+      </section>
+    </aside>
+
+    <main class="main">
+      <section class="content-card table-list-card">
+        <div class="section-header">
+          <h2>Tabellen</h2>
+          <input id="tableSearch" type="text" placeholder="Suchen …" autocomplete="off" />
+        </div>
+        <ul id="tableList" class="table-list"></ul>
+      </section>
+
+      <section class="content-card viewer-card">
+        <div class="section-header query-header">
+          <h2>Datenansicht</h2>
+          <div class="query-bar">
+            <textarea id="queryInput" rows="3" placeholder="SELECT TOP 100 * FROM dbo.DeineTabelle"></textarea>
+            <button id="runQueryBtn" class="primary">SQL ausführen</button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table id="dataTable">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
