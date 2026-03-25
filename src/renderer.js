@@ -19,7 +19,7 @@ function setStatus(text) {
 }
 
 function addLog(text) {
-  const time = new Date().toLocaleTimeString('de-DE');
+  const time = new Date().toLocaleTimeString('en-US');
   logBox.textContent = `[${time}] ${text}\n` + logBox.textContent;
 }
 
@@ -29,7 +29,7 @@ function renderTable(columns, rows) {
 
   if (!columns.length) {
     dataTableHead.innerHTML = '';
-    dataTableBody.innerHTML = '<tr><td>Keine Daten vorhanden</td></tr>';
+    dataTableBody.innerHTML = '<tr><td>No data available</td></tr>';
     return;
   }
 
@@ -67,10 +67,10 @@ function renderTableItems(tables) {
     const badge = document.createElement('span');
     if (rowCount === 0) {
       badge.className = 'table-badge table-badge--empty';
-      badge.textContent = 'leer';
+      badge.textContent = 'empty';
     } else {
       badge.className = 'table-badge table-badge--rows';
-      badge.textContent = rowCount.toLocaleString('de-DE');
+      badge.textContent = rowCount.toLocaleString('en-US');
     }
 
     button.appendChild(nameSpan);
@@ -79,12 +79,12 @@ function renderTableItems(tables) {
     button.addEventListener('click', async () => {
       try {
         state.selectedTable = name;
-        setStatus(`Lade Vorschau für ${name} …`);
-        addLog(`Vorschau wird geladen: ${name}`);
+        setStatus(`Loading preview for ${name} …`);
+        addLog(`Loading preview: ${name}`);
         const result = await window.mdfApi.previewTable(name);
         renderTable(result.columns, result.rows);
         queryInput.value = `SELECT TOP 200 * FROM [${name.replace('.', '].[')}]`;
-        setStatus(`Vorschau geladen: ${name}`);
+        setStatus(`Preview loaded: ${name}`);
       } catch (error) {
         handleError(error);
       }
@@ -97,7 +97,7 @@ function renderTableItems(tables) {
 function handleError(error) {
   const message = error?.message || String(error);
   setStatus(message);
-  addLog(`Fehler: ${message}`);
+  addLog(`Error: ${message}`);
 }
 
 function escapeHtml(value) {
@@ -114,11 +114,11 @@ async function loadTables() {
   btn.disabled = true;
   btn.classList.add('loading');
   try {
-    setStatus('Lade Tabellen …');
+    setStatus('Loading tables …');
     const tables = await window.mdfApi.listTables();
     renderTableList(tables);
-    setStatus(`${tables.length} Tabellen geladen`);
-    addLog(`${tables.length} Tabellen geladen`);
+    setStatus(`${tables.length} tables loaded`);
+    addLog(`${tables.length} tables loaded`);
   } catch (error) {
     handleError(error);
   } finally {
@@ -133,8 +133,8 @@ document.getElementById('chooseMdf').addEventListener('click', async () => {
     if (result.canceled) return;
     await window.mdfApi.setPath({ kind: 'mdf', path: result.path });
     mdfPath.value = result.path;
-    addLog(`MDF ausgewählt: ${result.path}`);
-    setStatus('MDF-Datei ausgewählt');
+    addLog(`MDF selected: ${result.path}`);
+    setStatus('MDF file selected');
   } catch (error) {
     handleError(error);
   }
@@ -146,8 +146,8 @@ document.getElementById('chooseLdf').addEventListener('click', async () => {
     if (result.canceled) return;
     await window.mdfApi.setPath({ kind: 'ldf', path: result.path });
     ldfPath.value = result.path;
-    addLog(`LDF ausgewählt: ${result.path}`);
-    setStatus('LDF-Datei ausgewählt');
+    addLog(`LDF selected: ${result.path}`);
+    setStatus('LDF file selected');
   } catch (error) {
     handleError(error);
   }
@@ -158,11 +158,11 @@ document.getElementById('attachBtn').addEventListener('click', async () => {
   btn.disabled = true;
   btn.classList.add('loading');
   try {
-    setStatus('Docker und SQL Server werden vorbereitet. Das kann beim ersten Start etwas dauern.');
-    addLog('Starte SQL-Container und binde Datenbank ein');
+    setStatus('Preparing Docker and SQL Server. This may take a moment on first launch.');
+    addLog('Starting SQL container and attaching database');
     const result = await window.mdfApi.attachDatabase();
-    setStatus(`Datenbank eingebunden: ${result.database}`);
-    addLog(`Datenbank eingebunden: ${result.database}`);
+    setStatus(`Database attached: ${result.database}`);
+    addLog(`Database attached: ${result.database}`);
     await loadTables();
   } catch (error) {
     handleError(error);
@@ -178,14 +178,14 @@ document.getElementById('runQueryBtn').addEventListener('click', async () => {
   try {
     const query = queryInput.value.trim();
     if (!query) {
-      setStatus('Bitte eine SQL-Abfrage eingeben.');
+      setStatus('Please enter a SQL query.');
       return;
     }
-    setStatus('Führe SQL-Abfrage aus …');
-    addLog(`SQL-Abfrage: ${query}`);
+    setStatus('Running SQL query …');
+    addLog(`SQL query: ${query}`);
     const result = await window.mdfApi.runQuery(query);
     renderTable(result.columns, result.rows);
-    setStatus('SQL-Abfrage abgeschlossen');
+    setStatus('SQL query completed');
   } catch (error) {
     handleError(error);
   }
@@ -194,7 +194,7 @@ document.getElementById('runQueryBtn').addEventListener('click', async () => {
 document.getElementById('exportBtn').addEventListener('click', async () => {
   try {
     if (!state.columns.length) {
-      setStatus('Es gibt aktuell keine Daten zum Exportieren.');
+      setStatus('No data available to export.');
       return;
     }
     const exportName = state.selectedTable ? state.selectedTable.replaceAll('.', '_') : 'query_export';
@@ -204,8 +204,8 @@ document.getElementById('exportBtn').addEventListener('click', async () => {
       rows: state.rows
     });
     if (!result.canceled) {
-      setStatus(`CSV exportiert nach: ${result.path}`);
-      addLog(`CSV exportiert: ${result.path}`);
+      setStatus(`CSV exported to: ${result.path}`);
+      addLog(`CSV exported: ${result.path}`);
     }
   } catch (error) {
     handleError(error);

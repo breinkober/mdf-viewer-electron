@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,35 +10,35 @@
   <div class="app-shell">
     <aside class="sidebar">
       <h1>MDF Viewer</h1>
-      <p class="muted">Microsoft SQL Server MDF-Dateien auf macOS per Docker anzeigen</p>
+      <p class="muted">View Microsoft SQL Server MDF files on macOS via Docker</p>
 
       <section class="card">
-        <h2>Dateien</h2>
-        <label>MDF-Datei</label>
+        <h2>Files</h2>
+        <label>MDF File</label>
         <div class="file-row">
-          <input id="mdfPath" type="text" readonly placeholder="Keine MDF-Datei ausgewählt" />
-          <button id="chooseMdf">Auswählen</button>
+          <input id="mdfPath" type="text" readonly placeholder="No MDF file selected" />
+          <button id="chooseMdf">Browse</button>
         </div>
 
-        <label>Log-Datei (optional)</label>
+        <label>Log File (optional)</label>
         <div class="file-row">
-          <input id="ldfPath" type="text" readonly placeholder="Keine LDF-Datei ausgewählt" />
-          <button id="chooseLdf">Auswählen</button>
+          <input id="ldfPath" type="text" readonly placeholder="No LDF file selected" />
+          <button id="chooseLdf">Browse</button>
         </div>
       </section>
 
       <section class="card">
-        <h2>Aktionen</h2>
+        <h2>Actions</h2>
         <div class="action-buttons">
-          <button id="attachBtn" class="primary">Datenbank laden</button>
-          <button id="loadTablesBtn">Tabellen laden</button>
-          <button id="exportBtn">CSV exportieren</button>
+          <button id="attachBtn" class="primary">Load Database</button>
+          <button id="loadTablesBtn">Load Tables</button>
+          <button id="exportBtn">Export CSV</button>
         </div>
       </section>
 
       <section class="card">
         <h2>Status</h2>
-        <div id="status" class="status">Bereit</div>
+        <div id="status" class="status">Ready</div>
       </section>
 
       <section class="card log-card">
@@ -50,18 +50,18 @@
     <main class="main">
       <section class="content-card table-list-card">
         <div class="section-header">
-          <h2>Tabellen</h2>
-          <input id="tableSearch" type="text" placeholder="Suchen …" autocomplete="off" />
+          <h2>Tables</h2>
+          <input id="tableSearch" type="text" placeholder="Search …" autocomplete="off" />
         </div>
         <ul id="tableList" class="table-list"></ul>
       </section>
 
       <section class="content-card viewer-card">
         <div class="section-header query-header">
-          <h2>Datenansicht</h2>
+          <h2>Data View</h2>
           <div class="query-bar">
-            <textarea id="queryInput" rows="3" placeholder="SELECT TOP 100 * FROM dbo.DeineTabelle"></textarea>
-            <button id="runQueryBtn" class="primary">SQL ausführen</button>
+            <textarea id="queryInput" rows="3" placeholder="SELECT TOP 100 * FROM dbo.YourTable"></textarea>
+            <button id="runQueryBtn" class="primary">Run SQL</button>
           </div>
         </div>
         <div class="table-wrapper">
